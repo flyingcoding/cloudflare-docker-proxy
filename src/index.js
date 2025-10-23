@@ -20,9 +20,19 @@ const routes = {
   ["docker-staging." + CUSTOM_DOMAIN]: dockerHub,
 };
 
-function routeByHosts(host) {
+/**
+ * 解析请求 Host 对应的上游地址
+ * - 若命中内置路由（自定义域名场景），返回映射的上游
+ * - 若为 workers.dev 域名（未绑定自定义域），使用环境变量 TARGET_UPSTREAM；未配置时回退到 Docker Hub
+ * - 若处于调试模式（MODE="debug"），回退到 TARGET_UPSTREAM
+ * - 其他情况返回空字符串以触发 404
+ */
+function resolveUpstreamByHost(host) {
   if (host in routes) {
     return routes[host];
+  }
+  if (host.endsWith(".workers.dev")) {
+    return TARGET_UPSTREAM && TARGET_UPSTREAM.length > 0 ? TARGET_UPSTREAM : dockerHub;
   }
   if (MODE == "debug") {
     return TARGET_UPSTREAM;
@@ -35,7 +45,7 @@ async function handleRequest(request) {
   if (url.pathname == "/") {
     return Response.redirect(url.protocol + "//" + url.host + "/v2/", 301);
   }
-  const upstream = routeByHosts(url.hostname);
+  const upstream = resolveUpstreamByHost(url.hostname);
   if (upstream === "") {
     return new Response(
       JSON.stringify({

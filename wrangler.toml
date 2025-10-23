@@ -1,18 +1,21 @@
 name = "cloudflare-docker-proxy"
 compatibility_date = "2023-12-01"
 
+main = "src/index.js"
+
 [dev]
 ip = "0.0.0.0"
 port = 8787
 local_protocol = "http"
 
-[env.vars]
-CUSTOM_DOMAIN = "libcuda.so"
+[vars]
+CUSTOM_DOMAIN = "flying123.xyz"
+TARGET_UPSTREAM = "https://registry-1.docker.io"
 
 [env.dev.vars]
 MODE = "debug"
 TARGET_UPSTREAM = "https://registry-1.docker.io"
-CUSTOM_DOMAIN = "exmaple.com"
+CUSTOM_DOMAIN = "flying123.xyz"
 
 [env.production]
 name = "cloudflare-docker-proxy"
