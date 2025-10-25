@@ -26,6 +26,7 @@ routes = [
 [env.production.vars]
 MODE = "production"
 TARGET_UPSTREAM = ""
+CUSTOM_DOMAIN = "flying123.xyz"
 
 [env.staging]
 name = "cloudflare-docker-proxy-staging"
@@ -34,3 +35,4 @@ name = "cloudflare-docker-proxy-staging"
 [env.staging.vars]
 MODE = "staging"
 TARGET_UPSTREAM = ""
+CUSTOM_DOMAIN = "flying123.xyz"
