@@ -20,7 +20,7 @@ CUSTOM_DOMAIN = "flying123.xyz"
 [env.production]
 name = "cloudflare-docker-proxy"
 routes = [
-  { pattern = "docker.flying123.xyz", custom_domain = true, override_existing_dns_record = true },
+  { pattern = "docker.flying123.xyz", custom_domain = true },
 ]
 
 [env.production.vars]
